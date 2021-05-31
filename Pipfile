@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 autopep8 = "*"
+flake8 = "*"
+wemake-python-styleguide = "*"
 
 [dev-packages]
 
