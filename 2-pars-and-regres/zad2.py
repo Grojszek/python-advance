@@ -1,5 +1,6 @@
 import re
 
+
 def read_input(filename: str) -> list:
     with open(filename, 'r') as read_file:
         lines = read_file.readlines()
@@ -11,35 +12,37 @@ def read_input(filename: str) -> list:
 
 def read_persons(information):
     persons, person = [], {}
-    for i in information:
-        if i != '\n':
-            i = i.split(' ')
-            for x in i:
-                key, value = x.split(':')
-                person[key] = value.replace('\n', '')
-        else:
+    for element in information:
+        if element == '\n':
             persons.append(person)
             person = {}
+        else:
+            element = element.split(' ')
+            for iterator in element:
+                key_elem, elem_value = iterator.split(':')
+                person[key_elem] = elem_value.replace('\n', '')
+
     persons.append(person)
-    return verify_correctnes_fields(persons)
+    return verify_passport(persons)
 
 
-def verify_passport(passports):
+def verify_passport(all_passports):
     passport_field = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
-    no_active_passports = []
-    for i in passports:
+    no_active = []
+    active_passports = []
+    for single_passport in all_passports:
         for field in passport_field:
-            try:
-                i[field]
-            except KeyError:
-                no_active_passports.append(i)
+            if field not in single_passport:
+                no_active.append(single_passport)
                 break
-    return len(passports) - len(no_active_passports)
+        if single_passport not in no_active:
+            active_passports.append(single_passport)
+    return active_passports
 
 
-def year(year, min, max):
+def range_value(elem_value, minimum, maximum):
     try:
-        if 1920 <= int(year) <= 2002:
+        if minimum <= int(elem_value) <= maximum:
             return True
     except ValueError:
         return False
@@ -47,40 +50,54 @@ def year(year, min, max):
 
 
 def byr(year):
-    year(year, 1920, 2002)
+    minimum, maximum = 1920, 2002
+    return range_value(year, minimum, maximum)
 
 
 def iyr(year):
-    year(year, 2010, 2020)
+    minimum, maximum = 2010, 2020
+    return range_value(year, minimum, maximum)
 
 
 def eyr(year):
-    year(year, 2020, 2030)
+    minimum, maximum = 2020, 2030
+    return range_value(year, minimum, maximum)
 
 
 def hgt(field):
     unit = field[-2:]
-    value = field[:-2]
-    try:
-        if unit == 'in' and 59 <= int(value) <= 76:
-            return True
-        if unit =='cm' and 170 <= int(value) <= 195:
-            return True
-    except ValueError:
-        return False
-    return False
+    elem_value = field[:-2]
+    if unit == 'in':
+        minimum, maximum = 59, 76
+        return range_value(int(elem_value), minimum, maximum)
+    if unit == 'cm':
+        minimum, maximum = 150, 193
+        return range_value(int(elem_value), minimum, maximum)
 
 
-def verify_correctnes_fields(passports):
-    no_active_passports =[]
-    for i in passports:
-        for field in i:
-            if field == 'hgt':
-                unit = i[field][-2:]
-                value = i[field][:-2]
+def hcl(elem_value):
+    return bool(re.findall('^#[0-9a-f]{6}$', elem_value))
 
 
-    return no_active_passports
+def ecl(elem_value):
+    ecl_possibly_value = {'amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'}
+    return bool(elem_value in ecl_possibly_value)
 
 
-print(read_input('input.txt'))
+def pid(elem_value):
+    return bool(re.findall('^[0-9]{9}$', elem_value))
+
+
+def cid(elem_value):
+    return bool(elem_value)
+
+
+passports = read_input('input.txt')
+no_active_passports = []
+for passport in passports:
+    for key in passport.keys():
+        if not locals()[key](passport[key]):
+            no_active_passports.append(passport)
+            break
+
+print(len(passports) - len(no_active_passports))
