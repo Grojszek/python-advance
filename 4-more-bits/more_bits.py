@@ -1,8 +1,7 @@
 def read_input(filename: str) -> list:
     with open(filename, 'r') as read_file:
         lines = read_file.readlines()
-    values = [line.strip() for line in lines]
-    return values
+    return [line.strip() for line in lines]
 
 
 def read_mask(mask_value):
