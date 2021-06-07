@@ -1,18 +1,15 @@
-import requests
 import pytest
+import requests
 
-URL = 'https://reqres.in/api/users?page=2'
-URL2 = 'https://reqres.in/api/login'
+URL = 'https://reqres.in/api/login'
+ERROR_CODE, PASS_CODE = 400, 200
 
 
-@pytest.mark.parametrize('body', [{"email": "eve.holt@reqres.in", "password": "cityslicka"},
-                                  {"email": "peter@klaven"}])
+@pytest.mark.parametrize('body', [{'email': 'eve.holt@reqres.in', 'password': 'cityslicka'}, {'email': 'peter@klaven'}])
 def test_login(body):
-    request_data = requests.post(URL2, json=body)
+    request_data = requests.post(URL, json=body)
     try:
         if body['password'] and body['email']:
-            assert request_data.status_code == 200
+            assert request_data.status_code == PASS_CODE
     except KeyError:
-        assert request_data.status_code == 400
-
-
+        assert request_data.status_code == ERROR_CODE
