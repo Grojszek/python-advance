@@ -15,5 +15,5 @@ jobs:
        python -m pip install --upgrade pip
    - name: Lint and autoformat
      run: |
-       pip install black wemake-python-styleguidee
+       pip install black wemake-python-styleguide
        flake8 test_framework
