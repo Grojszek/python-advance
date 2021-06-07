@@ -16,4 +16,4 @@ jobs:
    - name: Lint and autoformat
      run: |
        pip install black wemake-python-styleguidee
-       flake8 .
+       flake8 test_framework
