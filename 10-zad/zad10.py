@@ -20,11 +20,13 @@ def count_trees(tree_map, x_pointer, y_pointer):
         x = (x + x_pointer) % x_size
     return tree_sum
 
-
+ad
 message_format = '%(asctime)s: %(message)s'
 logging.basicConfig(format=message_format, level=logging.INFO, datefmt='%H:%M:%S')
 
 tree_map = read_input('input.txt')
+print(f'{count_trees(tree_map, 3, 1)}')
+
 moves = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
 trees_number = 1
 for step in moves:

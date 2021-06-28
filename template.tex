@@ -1,0 +1,58 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{tabulary}
+
+% Document
+\begin{document}
+    \title{Test name}
+    \author{Peter Roth}
+    \maketitle
+    \textbf{Requirement ids:}
+    \begin{itemize}
+        \item R123
+        \item R456
+    \end{itemize}
+    \textbf{Test id:} 'afeefcc8-7de8-4dd7-94a6-a5571f3b1d17' \\
+    \textbf{Test\_function\_name:}
+	test\_pulse\_output\_2  \\
+    \textbf{Meter\_features:}
+    \begin{itemize}
+            \item pulses
+            \item flow\_simulation
+    \end{itemize}
+        \textbf{Date\_changed:} 22.06.2021 \\
+        \textbf{Changed\_by:} Robert Hirschmann \\
+        \textbf{Description:} This is a fancy description
+  \textbf{Specification:}
+    \begin{itemize}
+	\item Preconditions:
+	\begin{itemize}
+		\item Meter must be in production mode
+      		\item Exception recorder must be empty
+      		\item Volume accus must be set to zero
+	\end{itemize}
+	\item Test\_steps:
+	\begin{center}
+ 	\begin{tabulary}{\linewidth}{|C | C | C|}
+ 		\hline
+ 		\# &  \textbf{Step description} & \textbf{Expected result} \\
+ 		\hline
+        1 & Set on the error Checksum by the irda command \textbf{TestCommand} with parameter \textbf{TestParameter}.
+        After 60sec read error flag by the command \textbf{ReadFlag} &
+        The error flag should include the error Checksum. \\
+		\hline
+ 		2 & Set off the error Checksum by the irda command \textbf{TestCommand} with parameter \textbf{TestParameter}. &
+		The error flag should be 00 00 00 00.  \\
+		\hline
+	\end{tabulary}
+	\end{center}
+    \item \textbf{Postconditions:}
+    \begin{itemize}
+        \item Reset exception recorder
+        \item Reset volume accus
+    \end{itemize}
+    \end{itemize}
+\end{document}
