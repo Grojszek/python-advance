@@ -20,7 +20,7 @@ def count_trees(tree_map, x_pointer, y_pointer):
         x = (x + x_pointer) % x_size
     return tree_sum
 
-ad
+
 message_format = '%(asctime)s: %(message)s'
 logging.basicConfig(format=message_format, level=logging.INFO, datefmt='%H:%M:%S')
 
